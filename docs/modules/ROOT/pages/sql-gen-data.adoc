@@ -6,11 +6,11 @@ Make sure to rename this file to the name of your repository and add the filenam
 = Generating Streaming data using SQL
 // Add required variables
 :page-layout: tutorial
-:page-product: cloud // Required: Define the product filter for this tutorial. Add one of the following: platform, imdg, cloud, operator
-:page-categories: Stream Processing, Get Started, SQL  // Optional: Define the categories for this tutorial. Check the current categories on the tutorials homepage (https://docs.hazelcast.com/tutorials/). Add one or more of the existing categories or add new ones as a comma-separated list. Make sure that you use title case for all categories. 
-:page-lang: sql // Optional: Define what Hazelcast client languages are supported by this tutorial. Leave blank or add one or more of: java, go, python, cplus, node, csharp.
-:page-enterprise: // Required: Define whether this tutorial requires an Enterprise license (true or blank)
-:page-est-time: 10 mins // Required: Define the estimated number of time required to complete the tutorial in minutes. For example, 10 mins
+:page-product: cloud 
+:page-categories: Stream Processing, Get Started, SQL  
+:page-lang: sql 
+:page-enterprise: 
+:page-est-time: 10 mins 
 :description: Use SQL on Hazelcast to generate randomized streaming data for demo/POC purposes. 
 // Required: Summarize what this tutorial is about in a sentence or two. What you put here is reused as the tutorial's first paragraph and included in HTML description tags. Start the sentence with an action verb such as 'Deploy' or 'Connect'.
 
@@ -38,9 +38,9 @@ In an upcoming release of Hazelcast, the Kafka Connect connector will expose SQL
 
 Before starting this tutorial, make sure that you meet the following prerequisites:
 
-* Running cluster of Hazelcast
+* Running cluster of Hazelcast, either Viridian or Platform
 * Connection to SQL command line, either through CLC or through Management Center
-* (Optional) a Kafka instance accessible by your Hazelcast cluster
+* (For Step 2) a Kafka instance accessible by your Hazelcast cluster
 
 
 == Step 1. Generating Data
@@ -55,8 +55,9 @@ You can choose one of these approaches to write your tutorial part:
 Whatever option you choose when designing your tutorial should be carried through in subsequent parts.
 ////
 
-The following code is from the link:https://docs.hazelcast.com/tutorials/SQL-Basics-on-Viridian[SQL Basics on Viridian (Stock Ticker Demo) tutorial]. The comments break down what each part of the code is doing.
+. Look through the following SQL code from the link:https://docs.hazelcast.com/tutorials/SQL-Basics-on-Viridian[SQL Basics on Viridian (Stock Ticker Demo)] tutorial. The comments explain what the code is doing.
 
++
 ```sql
 CREATE OR REPLACE VIEW trades AS
   SELECT id,
@@ -99,7 +100,9 @@ FROM
 <4> We seed the timestamp with a base value that equates to 21 Feb 2022. You can change this to any reasonable Unix timestamp. 
 <5> The `generate_stream` function is what makes this all work. In this example, we're generating 100 events per second. 
 
-Once this view is created, you can access it via SQL. Because you're looking at streaming data, you'll need to use CTRL-C to stop each query.
+. Paste the above code into your SQL interface. 
+
+. Verify that the data is being generated using SQL queries. Because you're looking at streaming data, you'll need to use CTRL-C to stop each query.
 
 ```sql
 SELECT * from trades;
@@ -107,7 +110,6 @@ SELECT * from trades;
 SELECT ticker AS Symbol, ROUND(price,2) AS Price, amount AS "Shares Sold"
 FROM trades;
 ```
-
 
 
 == Step 2. Inserting into Kafka
@@ -118,7 +120,7 @@ Continue the design approach you chose in the previous part and continue it thro
 
 You can send generated data to Kafka. Kafka will store and replay it as it would data from any other streaming source. Instead of creating a view local to Hazelcast, you'll create a mapping within SQL for the Kafka topic, then use the `INSERT` function to send generated data to that topic.
 
-. First, create a mapping for the data. Include all the fields that you'll generate with SQL. This creates a topic in Kafka as well as m
+. First, create a mapping for the data. Include all the fields that you'll generate with SQL. This statement creates the `trades` topic in Kafka.
 +
 ```sql
 CREATE or REPLACE MAPPING trades (
@@ -133,7 +135,8 @@ OPTIONS (
     'bootstrap.servers' = 'broker:9092'
 );
 ```
-. Next, use the `INSERT` function to send the data to the `trades` topic you just created.
+. Next, use the `INSERT` function to send the data to the `trades` topic you just created. The code to generate the data is exactly the same; the only difference is that we're sending it to Kafka instead of creating a local view.
++
 ```sql
 INSERT INTO trades
   SELECT id,
@@ -167,7 +170,15 @@ FROM
            ROUND(RAND()*100, 0) as amount
      FROM TABLE(generate_stream(100))); <5>
 ```
-The code to generate the data is exactly the same; the only difference is that we're sending it to Kafka instead of creating a local view.
+
+. You can now query this data as above using SQL. 
++
+You can also access this streaming data with the Pipeline API using the following call. (For details on setting up the Kakfa sources properties, see the link:https://docs.hazelcast.com/hazelcast/5.3/integrate/kafka-connector[Apache Kafka Connector]) section of the documentation. 
++
+```java
+Pipeline p = Pipeline.create();
+p.readFrom(KafkaSources.kafka(properties, "trades"))
+```
 
 == Summary
 
