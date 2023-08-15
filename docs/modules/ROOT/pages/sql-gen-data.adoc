@@ -3,7 +3,7 @@ Make sure to rename this file to the name of your repository and add the filenam
 ////
 
 // Describe the title of your article by replacing 'Tutorial template' with the page name you want to publish.
-= Generating Streaming data using SQL
+= Generating Streaming Data Using SQL
 // Add required variables
 :page-layout: tutorial
 :page-product: cloud 
@@ -38,7 +38,7 @@ In an upcoming release of Hazelcast, the Kafka Connect connector will expose SQL
 
 Before starting this tutorial, make sure that you meet the following prerequisites:
 
-* Running cluster of Hazelcast, either Viridian or Platform
+* Running cluster of Hazelcast, either Viridian Cloud or Platform
 * Connection to SQL command line, either through CLC or through Management Center
 * (For Step 2) a Kafka instance accessible by your Hazelcast cluster
 
@@ -55,7 +55,7 @@ You can choose one of these approaches to write your tutorial part:
 Whatever option you choose when designing your tutorial should be carried through in subsequent parts.
 ////
 
-. Look through the following SQL code from the link:https://docs.hazelcast.com/tutorials/sql-on-viridian[SQL Basics on Viridian (Stock Ticker Demo)] tutorial. The comments explain what the code is doing.
+. Look through the following SQL code from the link:https://docs.hazelcast.com/tutorials/sql-on-viridian[SQL Basics on Viridian Cloud (Stock Ticker Demo)] tutorial. The comments explain what the code is doing.
 
 +
 ```sql
