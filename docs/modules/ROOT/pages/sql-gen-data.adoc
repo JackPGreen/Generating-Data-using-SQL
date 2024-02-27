@@ -30,7 +30,7 @@ As of Hazelcast 5.3, you can:
 
 [NOTE]
 ====
-In an upcoming release of Hazelcast, the Kafka Connect connector will expose SQL, eliminating the need for an external Kafka server to feed data into the pipeline API. 
+Hazelcast 5.4 exposes SQL through the Kafka Connect connector, eliminating the need for an external Kafka server to feed data into the pipeline API. For further information on using the Kafka Connect connector, refer to the link:https://docs.hazelcast.com/hazelcast/latest/sql/mapping-to-kafka[Platform documentation,window=_blank]. 
 ====
 
 // Optional: What does the reader need before starting this tutorial? Think about tools or knowledge. Delete this section if your readers can dive straight into the lesson without requiring any prerequisite knowledge.
@@ -38,9 +38,9 @@ In an upcoming release of Hazelcast, the Kafka Connect connector will expose SQL
 
 Before starting this tutorial, make sure that you meet the following prerequisites:
 
-* Running cluster of Hazelcast, either Viridian Cloud or Platform
+* Running cluster of Hazelcast, either Cloud or Platform
 * Connection to SQL command line, either through CLC or through Management Center
-* (For Step 2) a Kafka instance accessible by your Hazelcast cluster
+* For Step 2, a Kafka instance accessible by your Hazelcast cluster
 
 
 == Step 1. Generating Data
@@ -55,7 +55,7 @@ You can choose one of these approaches to write your tutorial part:
 Whatever option you choose when designing your tutorial should be carried through in subsequent parts.
 ////
 
-. Look through the following SQL code from the link:https://docs.hazelcast.com/tutorials/sql-on-viridian[SQL Basics on Viridian Cloud (Stock Ticker Demo)] tutorial. The comments explain what the code is doing.
+. Look through the following SQL code from the link:https://docs.hazelcast.com/tutorials/sql_stock_ticker__cloud[SQL Basics on Cloud (Stock Ticker Demo)] tutorial. The comments explain what the code is doing.
 
 +
 ```sql
